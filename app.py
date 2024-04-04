@@ -16,14 +16,14 @@ class Main:
     clock = pygame.time.Clock()
     
     screen = pygame.display.set_mode((600, 600), 0, 32)
-    display = pygame.Surface((300, 300))
+    display = pygame.Surface((600, 600))
     
     block_image = pygame.image.load('block.png')
     
     seed = randint(0, 5000)
     np.random.seed(seed)
     print("Seed :", seed)
-    noise = generate_perlin_noise_2d((15, 15), (1, 1))
+    noise = generate_perlin_noise_2d((300, 300), (10, 10))
     
     def text_to_map_data(path):
         map_file = open(path)
@@ -39,10 +39,10 @@ class Main:
                 
         noise = np.trunc(noise)
 
-        for y, row in enumerate(noise): # enumerer chaque listes de la matrice
-            for x, tile in enumerate(row): # enumerer chaque elements de chaque listes
-                surface.blit(block_image, (140 + x * 10 - y * 10, 100 + x * 5 + y * 5 - tile * 10))
-
+        for y, row in enumerate(noise):
+            for x, tile in enumerate(row):
+                surface.blit(block_image, (600 + x * 10 - y * 10, -350 + x * 5 + y * 5 - tile * 10))
+                
         print(noise)
     
     def text_to_render_map(surface, data, layer=0, debugView=False):
@@ -55,14 +55,14 @@ class Main:
                     # On affiche l'image du bloc avec ses coordonnees pour l'effet isometrique
                     surface.blit(block_image, (140 + x * 10 - y * 10, 100 + x * 5 + y * 5 - layer * 10))
     
-    dataLayer0 = text_to_map_data('mapLayer0.txt')
-    dataLayer1 = text_to_map_data('mapLayer1.txt')
-    dataLayer2 = text_to_map_data('mapLayer2.txt')
+    #dataLayer0 = text_to_map_data('mapLayer0.txt')
+    #dataLayer1 = text_to_map_data('mapLayer1.txt')
+    #dataLayer2 = text_to_map_data('mapLayer2.txt')
     
-    #noise_to_text(display, noise)
-    text_to_render_map(display, dataLayer0, 0)
-    text_to_render_map(display, dataLayer1, 1)
-    text_to_render_map(display, dataLayer2, 2)
+    noise_to_text(display, noise)
+    #text_to_render_map(display, dataLayer0, 0)
+    #text_to_render_map(display, dataLayer1, 1)
+    #text_to_render_map(display, dataLayer2, 2)
     
     while True:
         
